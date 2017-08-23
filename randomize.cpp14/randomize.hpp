@@ -105,7 +105,7 @@ namespace randomize {
             T max = range<T>::max,
             typename std::enable_if<std::is_integral<T>::value, int>::type = 0
         >
-        auto uniform_distribution() noexcept {
+        auto uniform_distribution() {
             return std::uniform_int_distribution<T>{min, max};
         }
         
@@ -120,7 +120,7 @@ namespace randomize {
             long long max = range<T>::max,
             typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0
         >
-        auto uniform_distribution() noexcept {
+        auto uniform_distribution() {
             return std::uniform_real_distribution<T>{static_cast<T>(min), static_cast<T>(max)};
         }
         
@@ -133,7 +133,7 @@ namespace randomize {
             typename T,
             typename std::enable_if<std::is_integral<T>::value, int>::type = 0
         >
-        auto uniform_distribution(T min, T max) noexcept {
+        auto uniform_distribution(T min, T max) {
             return std::uniform_int_distribution<T>{min, max};
         }
         
@@ -146,7 +146,7 @@ namespace randomize {
             typename T,
             typename std::enable_if<std::is_floating_point<T>::value, int>::type = 0
         >
-        auto uniform_distribution(T min, T max) noexcept {
+        auto uniform_distribution(T min, T max) {
             return std::uniform_real_distribution<T>{min, max};
         }
         
@@ -160,7 +160,7 @@ namespace randomize {
             typename range<T>::value_type min = range<T>::min,
             typename range<T>::value_type max = range<T>::max
         >
-        auto rand_impl() noexcept {
+        auto rand_impl() {
             static unsigned seed_time{gen_seed()};
             static auto generator = uniform_distribution<T, min, max>();
             static auto engine = std::mt19937_64{seed_time};
@@ -174,7 +174,7 @@ namespace randomize {
          * @return - random number function in the range [min, max].
          */
         template <typename T>
-        auto get_rand_impl(T min, T max) noexcept {
+        auto get_rand_impl(T min, T max) {
             static unsigned seed_time{gen_seed()};
             static auto engine = std::mt19937_64{seed_time};
             
@@ -198,7 +198,7 @@ namespace randomize {
          * @return - random number in the range [min, max].
          */
         template <typename T>
-        auto rand_impl(T min, T max) noexcept {
+        auto rand_impl(T min, T max) {
             auto f = get_rand_impl(min, max);
             return f();
         }
@@ -210,7 +210,7 @@ namespace randomize {
      * @return - random number in the range [min, max].
      */
     template <typename T>
-    auto rand(T min, T max) noexcept {
+    auto rand(T min, T max) {
         static_assert(std::is_arithmetic<T>::value, "the provided type must be arithmetic");
         return details::rand_impl<T>(min, max);
     }
@@ -221,7 +221,7 @@ namespace randomize {
      * @return - random number function in the range [min, max].
      */
     template <typename T>
-    auto get_rand(T min, T max) noexcept {
+    auto get_rand(T min, T max) {
         static_assert(std::is_arithmetic<T>::value, "the provided type must be arithmetic");
         return details::get_rand_impl<T>(min, max);
     }
@@ -236,7 +236,7 @@ namespace randomize {
         typename details::range<T>::value_type min = details::range<T>::min,
         typename details::range<T>::value_type max = details::range<T>::max
     >
-    auto rand() noexcept {
+    auto rand() {
         static_assert(std::is_arithmetic<T>::value, "the provided type must be arithmetic");
         return details::rand_impl<T, min, max>();
     }
